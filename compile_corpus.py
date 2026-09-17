@@ -367,13 +367,14 @@ def populate_all_hadiths(conn):
 def populate_contemporary_fatwas(conn):
     cursor = conn.cursor()
     cursor.execute("SELECT count(*) FROM contemporary_fatwas")
-    if cursor.fetchone()[0] == 9:
-        print("[4/4] Contemporary Fatwas already populated (9 fatwas). Skipping.")
+    if cursor.fetchone()[0] >= 10:
+        print("[4/4] Contemporary Fatwas already populated (10+ fatwas). Skipping.")
         return
 
     print("\n[4/4] Ingesting Contemporary Fatwas and Fiqh Rulings...")
     cursor.execute("DELETE FROM contemporary_fatwas;")
     cursor.execute("DELETE FROM contemporary_fatwas_fts;")
+    cursor.execute("DELETE FROM sqlite_sequence WHERE name='contemporary_fatwas';")
 
     fatwas = [
         (
@@ -447,19 +448,27 @@ def populate_contemporary_fatwas(conn):
             "การจัดหายุทโธปกรณ์เพื่อป้องกันรัฐเป็นภาระหน้าที่ (ฟัรดู กิฟายะฮ์) ตามซูเราะฮ์อัล-อันฟาล 8:60 การเปิดร้านค้าอาวุธที่ถูกต้องตามกฎหมายเพื่อความมั่นคงถือเป็นสิ่งที่อนุมัติ แต่การค้าอาวุธเถื่อนหรือขายอาวุธให้แก่ศัตรู/ผู้ก่อการร้ายเป็นสิ่งฮะรอมเด็ดขาด ในการทำศึกสงคราม ท่านนบีสั่งห้ามสังหารเด็ก ผู้หญิง และคนชราอย่างเด็ดขาด (เศาะฮีฮ์ อัล-บุคอรี 3015)",
             "มติสภาฟิกฮ์อิสลามนานาชาติ, สำนักจุฬาราชมนตรี",
             "ซูเราะฮ์อัล-อันฟาล 8:60, ซูเราะฮ์อัล-มาอิดะฮ์ 5:2, ฮะดีษบุคอรี 3015"
+        ),
+        (
+            "เทคโนโลยีและปัญญาประดิษฐ์ (AI & Technology)",
+            "ฮุก่มปัญญาประดิษฐ์ (AI), อัลกอริทึม และดีพเฟก (Deepfakes)",
+            "AI เป็นเครื่องมือทางเทคโนโลยีที่โดยพื้นฐานเป็นที่อนุมัติ (มุบาฮ์) แต่ต้องอยู่ภายใต้กรอบจริยธรรมชะรีอะฮ์ ห้ามสร้าง Deepfake หลอกลวง ห้ามพัฒนาอาวุธอัตโนมัติไร้การควบคุม และห้ามใช้ AI ออกฟัตวาอิสระโดยไร้การกลั่นกรองจากมนุษย์",
+            "ปัญญาประดิษฐ์ (AI) มิใช่การสร้างสิ่งมีชีวิต (Khalq) เพราะไม่มีจิตวิญญาณ (Rūh) ตามซูเราะฮ์อัล-อิสรออ์ 17:85 แต่คือเครื่องมือประมวลผลข้อมูล (Al-Wasa'il) ตามหลัก 'สิ่งทางโลกเดิมทีอนุมัติ' 1. การใช้งาน: อนุญาตและส่งเสริมในด้านการแพทย์ วิทยาศาสตร์ และการสืบค้นตัวบทศาสนา 2. ความรับผิดชอบ (Daman): AI ไม่มีสภาพบุคคลทางกฎหมาย (Dhimmah) ความรับผิดชอบเมื่อเกิดความเสียหายตกอยู่กับผู้พัฒนา ผู้ตรวจสอบ หรือผู้สั่งการ 3. ข้อห้ามเด็ดขาด: ห้ามใช้สร้างภาพลวงตา/เสียงปลอมหลอกลวง (Deepfakes) ซึ่งเป็นบาปใหญ่ (การโกหกและใส่ร้าย), ห้ามใช้ระบบอาวุธอัตโนมัติสังหาร (LAWS) ที่ไร้การควบคุมของมนุษย์, และห้ามยกฐานะ AI เป็นมุฟตีตัดสินบทบัญญัติโดยตรงเนื่องจากขาดคุณสมบัติมุจญ์ตะฮิดและมีความเสี่ยงจากอาการประสาทหลอน (Hallucination)",
+            "สภาฟิกฮ์อิสลามนานาชาติ (OIC-IFA), มติสภาฟัตวาแห่งสหรัฐอาหรับเอมิเรตส์ (UAE Fatwa Council), ดารุลอิฟตาอ์ อัลมิศรียะฮ์",
+            "ซูเราะฮ์อัล-อิสรออ์ 17:85 (เรื่องของวิญญาณ), ซูเราะฮ์อัล-หุญุรอต 49:6 (การตรวจสอบข้อมูลข่าวสาร), ฮะดีษบุคอรี 6094 (การเตือนเรื่องการโกหกหลอกลวง), กฎนิติศาสตร์: ความเสียหายต้องถูกขจัดปัดเป่า (Ad-Dararu Yuzal)"
         )
     ]
 
-    for cat, title, summary, detail, auth, ev in fatwas:
+    for idx, (cat, title, summary, detail, auth, ev) in enumerate(fatwas, start=1):
         cursor.execute("""
-        INSERT INTO contemporary_fatwas (category, title_th, ruling_summary, detailed_explanation, authorities, primary_evidences)
-        VALUES (?, ?, ?, ?, ?, ?)
-        """, (cat, title, summary, detail, auth, ev))
+        INSERT INTO contemporary_fatwas (id, category, title_th, ruling_summary, detailed_explanation, authorities, primary_evidences)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (idx, cat, title, summary, detail, auth, ev))
 
         cursor.execute("""
-        INSERT INTO contemporary_fatwas_fts (category, title_th, ruling_summary, detailed_explanation, authorities, primary_evidences)
-        VALUES (?, ?, ?, ?, ?, ?)
-        """, (cat, title, summary, detail, auth, ev))
+        INSERT INTO contemporary_fatwas_fts (rowid, category, title_th, ruling_summary, detailed_explanation, authorities, primary_evidences)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (idx, cat, title, summary, detail, auth, ev))
 
     conn.commit()
     print(f"Successfully indexed {len(fatwas)} contemporary fatwas and rulings into SQLite FTS5!")

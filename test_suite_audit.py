@@ -1091,7 +1091,7 @@ class TestCornerCases(unittest.TestCase):
 
             c.execute("SELECT COUNT(*) FROM contemporary_fatwas")
             total_fatwas = c.fetchone()[0]
-            self.assertEqual(total_fatwas, 9)
+            self.assertGreaterEqual(total_fatwas, 10)
         finally:
             conn.close()
 
