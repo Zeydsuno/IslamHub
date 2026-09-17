@@ -1,0 +1,13 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.class
+
+# Large raw SQLite database (>100MB limit on GitHub; use quran_hadith_corpus.db.zip or compile_corpus.py)
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# Operating system files
+.DS_Store
+Thumbs.db
