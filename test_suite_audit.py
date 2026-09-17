@@ -511,6 +511,12 @@ class TestBaseCases(unittest.TestCase):
         self.assertIn('id="analysisTafsir"', content)
         self.assertIn('id="analysisFiqh"', content)
 
+        # Check Related Prophetic Hadiths cross-reference card UI
+        self.assertIn('id="verseHadithCard"', content)
+        self.assertIn('id="analysisHadithBadge"', content)
+        self.assertIn('id="analysisHadithText"', content)
+        self.assertIn('id="analysisHadithRelation"', content)
+
         # Check Al-Fatihah all 7 verses in FAMOUS_AYAHS
         for a in range(1, 8):
             self.assertIn(f'"1:{a}":', content)
@@ -519,6 +525,7 @@ class TestBaseCases(unittest.TestCase):
         for v in ["2:255", "4:11", "103:1", "112:1", "113:1", "114:1"]:
             self.assertIn(f'"{v}":', content)
             self.assertIn(f'"{v}": {{', content)
+
 
     def test_base_38_all_114_surahs_quran_corpus_coverage(self):
         """ตรวจสอบความสมบูรณ์ของคลังอัลกุรอาน 114 ซูเราะฮ์ ครบ 6,236 อายะฮ์ใน QURAN_CORPUS และ SURAHS_META"""
