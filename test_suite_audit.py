@@ -1091,7 +1091,7 @@ class TestCornerCases(unittest.TestCase):
 
             c.execute("SELECT COUNT(*) FROM contemporary_fatwas")
             total_fatwas = c.fetchone()[0]
-            self.assertGreaterEqual(total_fatwas, 32)
+            self.assertGreaterEqual(total_fatwas, 44)
         finally:
             conn.close()
 
@@ -1321,6 +1321,31 @@ class TestCornerCases(unittest.TestCase):
         space_res = search_fatwas("อวกาศ")
         self.assertGreaterEqual(len(space_res), 1)
         self.assertTrue(any("อวกาศ" in r["title_th"] for r in space_res))
+
+        # 12. Gene Editing / CRISPR
+        crispr_res = search_fatwas("ตัดต่อยีน")
+        self.assertGreaterEqual(len(crispr_res), 1)
+        self.assertTrue(any("ตัดต่อยีน" in r["title_th"] for r in crispr_res))
+
+        # 13. Sex Selection (PGD)
+        pgd_res = search_fatwas("เลือกเพศ")
+        self.assertGreaterEqual(len(pgd_res), 1)
+        self.assertTrue(any("เลือกเพศ" in r["title_th"] for r in pgd_res))
+
+        # 14. DeFi Staking
+        staking_res = search_fatwas("Staking")
+        self.assertGreaterEqual(len(staking_res), 1)
+        self.assertTrue(any("Staking" in r["title_th"] for r in staking_res))
+
+        # 15. Microblading
+        microblading_res = search_fatwas("สักคิ้ว")
+        self.assertGreaterEqual(len(microblading_res), 1)
+        self.assertTrue(any("สักคิ้ว" in r["title_th"] for r in microblading_res))
+
+        # 16. Adoption & Kafalah
+        adoption_res = search_fatwas("บุตรบุญธรรม")
+        self.assertGreaterEqual(len(adoption_res), 1)
+        self.assertTrue(any("บุตรบุญธรรม" in r["title_th"] for r in adoption_res))
 
 
 
