@@ -1091,7 +1091,7 @@ class TestCornerCases(unittest.TestCase):
 
             c.execute("SELECT COUNT(*) FROM contemporary_fatwas")
             total_fatwas = c.fetchone()[0]
-            self.assertGreaterEqual(total_fatwas, 44)
+            self.assertGreaterEqual(total_fatwas, 60)
         finally:
             conn.close()
 
@@ -1346,6 +1346,86 @@ class TestCornerCases(unittest.TestCase):
         adoption_res = search_fatwas("บุตรบุญธรรม")
         self.assertGreaterEqual(len(adoption_res), 1)
         self.assertTrue(any("บุตรบุญธรรม" in r["title_th"] for r in adoption_res))
+
+        # 17. Forensic Autopsy
+        autopsy_res = search_fatwas("ผ่าชันสูตร")
+        self.assertGreaterEqual(len(autopsy_res), 1)
+        self.assertTrue(any("ชันสูตร" in r["title_th"] for r in autopsy_res))
+
+        # 18. Short Selling
+        short_res = search_fatwas("ขายชอร์ต")
+        self.assertGreaterEqual(len(short_res), 1)
+        self.assertTrue(any("ขายชอร์ต" in r["title_th"] for r in short_res))
+
+        # 19. Credit Card Cashback
+        cashback_res = search_fatwas("Cashback")
+        self.assertGreaterEqual(len(cashback_res), 1)
+        self.assertTrue(any("Cashback" in r["title_th"] for r in cashback_res))
+
+        # 20. Interfaith Greetings
+        interfaith_res = search_fatwas("ต่างศาสนา")
+        self.assertGreaterEqual(len(interfaith_res), 1)
+        self.assertTrue(any("ต่างศาสนา" in r["title_th"] for r in interfaith_res))
+
+        # 21. Digital Estate & Inheritance
+        digital_res = search_fatwas("มรดกบัญชีดิจิทัล")
+        self.assertGreaterEqual(len(digital_res), 1)
+        self.assertTrue(any("มรดกบัญชีดิจิทัล" in r["title_th"] for r in digital_res))
+
+        # 22. Fetal Anomalies & Abortion
+        abortion_res = search_fatwas("ทารกในครรภ์")
+        self.assertGreaterEqual(len(abortion_res), 1)
+        self.assertTrue(any("ทารกในครรภ์" in r["title_th"] for r in abortion_res))
+
+        # 23. Xenotransplantation
+        xeno_res = search_fatwas("ปลูกถ่ายอวัยวะ")
+        self.assertGreaterEqual(len(xeno_res), 1)
+        self.assertTrue(any("ปลูกถ่ายอวัยวะ" in r["title_th"] for r in xeno_res))
+
+        # 24. Cultured Meat
+        cultured_res = search_fatwas("เนื้อเพาะเลี้ยง")
+        self.assertGreaterEqual(len(cultured_res), 1)
+        self.assertTrue(any("เนื้อเพาะเลี้ยง" in r["title_th"] for r in cultured_res))
+
+        # 25. Permanent Sterilization (Vasectomy)
+        steril_res = search_fatwas("ทำหมันถาวร")
+        self.assertGreaterEqual(len(steril_res), 1)
+        self.assertTrue(any("ทำหมันถาวร" in r["title_th"] for r in steril_res))
+
+        # 26. Porcine Gelatin
+        gelatin_res = search_fatwas("เจลาติน")
+        self.assertGreaterEqual(len(gelatin_res), 1)
+        self.assertTrue(any("เจลาติน" in r["title_th"] for r in gelatin_res))
+
+        # 27. Lawyering in Civil Courts
+        law_res = search_fatwas("ทนายความ")
+        self.assertGreaterEqual(len(law_res), 1)
+        self.assertTrue(any("ทนายความ" in r["title_th"] for r in law_res))
+
+        # 28. Insurance & Takaful
+        ins_res = search_fatwas("ประกันภัย")
+        self.assertGreaterEqual(len(ins_res), 1)
+        self.assertTrue(any("ประกันภัย" in r["title_th"] for r in ins_res))
+
+        # 29. Bariatric Surgery
+        baria_res = search_fatwas("ผ่าตัดกระเพาะ")
+        self.assertGreaterEqual(len(baria_res), 1)
+        self.assertTrue(any("ผ่าตัดกระเพาะ" in r["title_th"] for r in baria_res))
+
+        # 30. Gold Installment
+        gold_res = search_fatwas("ซื้อทองคำ")
+        self.assertGreaterEqual(len(gold_res), 1)
+        self.assertTrue(any("ซื้อทองคำ" in r["title_th"] for r in gold_res))
+
+        # 31. Astrology & Horoscopes
+        astro_res = search_fatwas("ดูดวง")
+        self.assertGreaterEqual(len(astro_res), 1)
+        self.assertTrue(any("ดูดวง" in r["title_th"] for r in astro_res))
+
+        # 32. Software Piracy
+        piracy_res = search_fatwas("ละเมิดลิขสิทธิ์")
+        self.assertGreaterEqual(len(piracy_res), 1)
+        self.assertTrue(any("ละเมิดลิขสิทธิ์" in r["title_th"] for r in piracy_res))
 
 
 
