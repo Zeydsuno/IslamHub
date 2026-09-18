@@ -1091,7 +1091,7 @@ class TestCornerCases(unittest.TestCase):
 
             c.execute("SELECT COUNT(*) FROM contemporary_fatwas")
             total_fatwas = c.fetchone()[0]
-            self.assertGreaterEqual(total_fatwas, 18)
+            self.assertGreaterEqual(total_fatwas, 32)
         finally:
             conn.close()
 
@@ -1289,6 +1289,38 @@ class TestCornerCases(unittest.TestCase):
         self.assertGreaterEqual(len(euthanasia_res), 1)
         self.assertIn("การุณยฆาต", euthanasia_res[0]["title_th"])
         self.assertIn("สมองตาย", euthanasia_res[0]["ruling_summary"])
+
+        # 6. Gacha & Loot Boxes
+        gacha_res = search_fatwas("กาชา")
+        self.assertGreaterEqual(len(gacha_res), 1)
+        self.assertTrue(any("กาชา" in r["title_th"] for r in gacha_res))
+        self.assertTrue(any("ฮะรอม" in r["ruling_summary"] for r in gacha_res))
+
+        # 7. Pet Neutering
+        neutering_res = search_fatwas("ทำหมัน")
+        self.assertGreaterEqual(len(neutering_res), 1)
+        self.assertIn("ทำหมัน", neutering_res[0]["title_th"])
+
+        # 8. Buffet Dining
+        buffet_res = search_fatwas("บุฟเฟต์")
+        self.assertGreaterEqual(len(buffet_res), 1)
+        self.assertIn("บุฟเฟต์", buffet_res[0]["title_th"])
+        self.assertIn("อนุมัติ", buffet_res[0]["ruling_summary"])
+
+        # 9. DNA Testing
+        dna_res = search_fatwas("DNA")
+        self.assertGreaterEqual(len(dna_res), 1)
+        self.assertIn("DNA", dna_res[0]["title_th"])
+
+        # 10. Carbon Credits
+        carbon_res = search_fatwas("คาร์บอนเครดิต")
+        self.assertGreaterEqual(len(carbon_res), 1)
+        self.assertIn("คาร์บอนเครดิต", carbon_res[0]["title_th"])
+
+        # 11. Space Worship
+        space_res = search_fatwas("อวกาศ")
+        self.assertGreaterEqual(len(space_res), 1)
+        self.assertTrue(any("อวกาศ" in r["title_th"] for r in space_res))
 
 
 
