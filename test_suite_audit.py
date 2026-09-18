@@ -1091,7 +1091,7 @@ class TestCornerCases(unittest.TestCase):
 
             c.execute("SELECT COUNT(*) FROM contemporary_fatwas")
             total_fatwas = c.fetchone()[0]
-            self.assertGreaterEqual(total_fatwas, 10)
+            self.assertGreaterEqual(total_fatwas, 18)
         finally:
             conn.close()
 
@@ -1257,6 +1257,39 @@ class TestCornerCases(unittest.TestCase):
             expected_total = principal + (principal * rate)
             self.assertAlmostEqual(calc["total_price"], expected_total, delta=0.01)
             self.assertAlmostEqual(calc["monthly_payment"] * tenure, calc["total_price"], delta=0.01)
+
+    def test_corner_22_contemporary_fatwas_expansion(self):
+        """สภาวะมุม: ตรวจสอบความแม่นยำของการค้นหาฟัตวาร่วมสมัย 8 หัวข้อใหม่ (Crypto, BNPL, Aesthetics, IVF, Euthanasia)"""
+        # 1. Crypto / Bitcoin
+        crypto_res = search_fatwas("บิตคอยน์")
+        self.assertGreaterEqual(len(crypto_res), 1)
+        self.assertIn("บิตคอยน์", crypto_res[0]["title_th"])
+        self.assertIn("SAC", crypto_res[0]["authorities"])
+
+        # 2. BNPL / SPayLater
+        bnpl_res = search_fatwas("SPayLater")
+        self.assertGreaterEqual(len(bnpl_res), 1)
+        self.assertIn("SPayLater", bnpl_res[0]["title_th"])
+        self.assertIn("ผ่อนสินค้า", bnpl_res[0]["title_th"])
+
+        # 3. Cosmetic Surgery
+        cosmetic_res = search_fatwas("ศัลยกรรม")
+        self.assertGreaterEqual(len(cosmetic_res), 1)
+        self.assertIn("ศัลยกรรม", cosmetic_res[0]["title_th"])
+        self.assertIn("อิซาละตุล อัยบ์", cosmetic_res[0]["ruling_summary"])
+
+        # 4. IVF & Surrogacy
+        ivf_res = search_fatwas("อุ้มบุญ")
+        self.assertGreaterEqual(len(ivf_res), 1)
+        self.assertIn("อุ้มบุญ", ivf_res[0]["title_th"])
+        self.assertIn("100%", ivf_res[0]["ruling_summary"])
+
+        # 5. Euthanasia & DNR
+        euthanasia_res = search_fatwas("การุณยฆาต")
+        self.assertGreaterEqual(len(euthanasia_res), 1)
+        self.assertIn("การุณยฆาต", euthanasia_res[0]["title_th"])
+        self.assertIn("สมองตาย", euthanasia_res[0]["ruling_summary"])
+
 
 
 
