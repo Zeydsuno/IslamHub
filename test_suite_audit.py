@@ -1091,7 +1091,7 @@ class TestCornerCases(unittest.TestCase):
 
             c.execute("SELECT COUNT(*) FROM contemporary_fatwas")
             total_fatwas = c.fetchone()[0]
-            self.assertGreaterEqual(total_fatwas, 60)
+            self.assertGreaterEqual(total_fatwas, 80)
         finally:
             conn.close()
 
@@ -1426,6 +1426,106 @@ class TestCornerCases(unittest.TestCase):
         piracy_res = search_fatwas("ละเมิดลิขสิทธิ์")
         self.assertGreaterEqual(len(piracy_res), 1)
         self.assertTrue(any("ละเมิดลิขสิทธิ์" in r["title_th"] for r in piracy_res))
+
+        # 33. Social Egg Freezing
+        egg_res = search_fatwas("แช่แข็งไข่")
+        self.assertGreaterEqual(len(egg_res), 1)
+        self.assertTrue(any("แช่แข็งไข่" in r["title_th"] for r in egg_res))
+
+        # 34. Thread Lift & Fillers
+        thread_res = search_fatwas("ร้อยไหม")
+        self.assertGreaterEqual(len(thread_res), 1)
+        self.assertTrue(any("ร้อยไหม" in r["title_th"] for r in thread_res))
+
+        # 35. Pure CBD from Hemp
+        cbd_res = search_fatwas("CBD")
+        self.assertGreaterEqual(len(cbd_res), 1)
+        self.assertTrue(any("CBD" in r["title_th"] for r in cbd_res))
+
+        # 36. Live-Commerce & Online Auctions
+        live_res = search_fatwas("ไลฟ์สด")
+        self.assertGreaterEqual(len(live_res), 1)
+        self.assertTrue(any("ไลฟ์สด" in r["title_th"] for r in live_res))
+
+        # 37. Game & Animation Mythology
+        myth_res = search_fatwas("เทพปกรณัม")
+        self.assertGreaterEqual(len(myth_res), 1)
+        self.assertTrue(any("เทพปกรณัม" in r["title_th"] for r in myth_res))
+
+        # 38. Stablecoins & Zakat
+        stable_res = search_fatwas("USDT")
+        self.assertGreaterEqual(len(stable_res), 1)
+        self.assertTrue(any("สเตเบิลคอยน์" in r["title_th"] for r in stable_res))
+
+        # 39. HPV Vaccination
+        hpv_res = search_fatwas("HPV")
+        self.assertGreaterEqual(len(hpv_res), 1)
+        self.assertTrue(any("HPV" in r["title_th"] for r in hpv_res))
+
+        # 40. CCTV & Privacy
+        cctv_res = search_fatwas("CCTV")
+        self.assertGreaterEqual(len(cctv_res), 1)
+        self.assertTrue(any("CCTV" in r["title_th"] for r in cctv_res))
+
+        # 41. Dental Veneers
+        veneer_res = search_fatwas("วีเนียร์")
+        self.assertGreaterEqual(len(veneer_res), 1)
+        self.assertTrue(any("วีเนียร์" in r["title_th"] for r in veneer_res))
+
+        # 42. Food Delivery Riders
+        rider_res = search_fatwas("ไรเดอร์")
+        self.assertGreaterEqual(len(rider_res), 1)
+        self.assertTrue(any("ไรเดอร์" in r["title_th"] for r in rider_res))
+
+        # 43. Influencer & Sponsorships
+        infl_res = search_fatwas("อินฟลูเอนเซอร์")
+        self.assertGreaterEqual(len(infl_res), 1)
+        self.assertTrue(any("อินฟลูเอนเซอร์" in r["title_th"] for r in infl_res))
+
+        # 44. Student Loans (กยศ.)
+        loan_res = search_fatwas("กยศ")
+        self.assertGreaterEqual(len(loan_res), 1)
+        self.assertTrue(any("กยศ" in r["title_th"] for r in loan_res))
+
+        # 45. Futures & Leverage Trading
+        fut_res = search_fatwas("ฟิวเจอร์ส")
+        self.assertGreaterEqual(len(fut_res), 1)
+        self.assertTrue(any("ฟิวเจอร์ส" in r["title_th"] for r in fut_res))
+
+        # 46. AI Griefbots & Voice Cloning
+        grief_res = search_fatwas("แชตบอต")
+        self.assertGreaterEqual(len(grief_res), 1)
+        self.assertTrue(any("แชตบอต" in r["title_th"] for r in grief_res))
+
+        # 47. Boycott & BDS Movement
+        bds_res = search_fatwas("คว่ำบาตร")
+        self.assertGreaterEqual(len(bds_res), 1)
+        self.assertTrue(any("คว่ำบาตร" in r["title_th"] for r in bds_res))
+
+        # 48. Insect Protein & Cricket Flour
+        insect_res = search_fatwas("จิ้งหรีด")
+        self.assertGreaterEqual(len(insect_res), 1)
+        self.assertTrue(any("จิ้งหรีด" in r["title_th"] for r in insect_res))
+
+        # 49. Muslim Dating Apps
+        dating_res = search_fatwas("หาคู่")
+        self.assertGreaterEqual(len(dating_res), 1)
+        self.assertTrue(any("หาคู่" in r["title_th"] for r in dating_res))
+
+        # 50. Ketamine & Psychedelic Therapy
+        keta_res = search_fatwas("เคตามีน")
+        self.assertGreaterEqual(len(keta_res), 1)
+        self.assertTrue(any("เคตามีน" in r["title_th"] for r in keta_res))
+
+        # 51. Prayer & Charity for Non-Muslim Deceased
+        inter_res = search_fatwas("อุทิศส่วนกุศล")
+        self.assertGreaterEqual(len(inter_res), 1)
+        self.assertTrue(any("อุทิศส่วนกุศล" in r["title_th"] for r in inter_res))
+
+        # 52. Extended Warranty & Protection Plans
+        warr_res = search_fatwas("AppleCare")
+        self.assertGreaterEqual(len(warr_res), 1)
+        self.assertTrue(any("AppleCare" in r["title_th"] for r in warr_res))
 
 
 
