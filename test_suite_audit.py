@@ -1091,7 +1091,7 @@ class TestCornerCases(unittest.TestCase):
 
             c.execute("SELECT COUNT(*) FROM contemporary_fatwas")
             total_fatwas = c.fetchone()[0]
-            self.assertGreaterEqual(total_fatwas, 80)
+            self.assertGreaterEqual(total_fatwas, 200)
         finally:
             conn.close()
 
@@ -1526,6 +1526,39 @@ class TestCornerCases(unittest.TestCase):
         warr_res = search_fatwas("AppleCare")
         self.assertGreaterEqual(len(warr_res), 1)
         self.assertTrue(any("AppleCare" in r["title_th"] for r in warr_res))
+
+    def test_corner_23_bicentennial_fatwas_expansion(self):
+        """สภาวะมุม: ตรวจสอบความถูกต้องและสมบูรณ์ของคลังฟัตวาร่วมสมัย 200 มิติ (Fatwas 81-200)"""
+        bicentennial_checks = [
+            ("Forex", "ฟอเร็กซ์", "Retail Forex Trading"),
+            ("มีมคอยน์", "มีมคอยน์", "Meme Coins"),
+            ("ปลูกถ่ายมดลูก", "มดลูก", "Uterus Transplantation"),
+            ("ขี้ชะมด", "ขี้ชะมด", "Kopi Luwak"),
+            ("คอสเพลย์", "คอสเพลย์", "Anime Cosplay"),
+            ("คัฟเวอร์แดนซ์", "เต้นคัฟเวอร์", "TikTok Dance"),
+            ("อวนลาก", "อวนลาก", "Bottom Trawling"),
+            ("เลิกจ้าง", "เลิกจ้าง", "AI Algorithmic Dismissals"),
+            ("โดรน", "โดรน", "Targeted Drone Strikes"),
+            ("เดินทางคนเดียว", "เดินทางคนเดียว", "Female Solo Travel"),
+            ("มิสยาร", "มิสยาร", "Misyar Marriage"),
+            ("ลูกประคำดิจิทัล", "ลูกประคำดิจิทัล", "Digital Tasbih"),
+            ("วากัฟเงินสด", "วากัฟเงินสด", "Cash Waqf"),
+            ("โอเพนซอร์ส", "โอเพนซอร์ส", "Open Source IP Waqf"),
+            ("MRTT", "MRTT", "Mortgage Reducing Term Takaful"),
+            ("บล็อกเชน", "บล็อกเชน", "Charity DAOs"),
+        ]
+
+        for query, expected_keyword, desc in bicentennial_checks:
+            res = search_fatwas(query)
+            self.assertGreaterEqual(len(res), 1, f"Search failed for {desc} (query: {query})")
+            self.assertTrue(
+                any(expected_keyword in r["title_th"] or expected_keyword in r["ruling_summary"] for r in res),
+                f"Expected keyword '{expected_keyword}' not found in results for {desc}"
+            )
+            # Evidential completeness
+            for r in res:
+                self.assertGreater(len(r["primary_evidences"]), 10, f"Missing primary evidences for {desc}")
+                self.assertGreater(len(r["authorities"]), 5, f"Missing authorities for {desc}")
 
 
 
